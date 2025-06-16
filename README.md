@@ -12,4 +12,4 @@ Abre `index.html` en tu navegador. Haz clic en “Explora historias” para escu
 - Conversión de texto a voz
 
 ## Autor
-Creado por [Tu Nombre o Alias]
+Creado por [Adrián]
