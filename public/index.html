@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VozOculta – Historias Anónimas en Audio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+    header {
+      background: #1e1e1e;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #00e0a8;
+    }
+    nav a {
+      color: #ccc;
+      margin-left: 1rem;
+      text-decoration: none;
+    }
+    nav a:hover {
+      color: #00e0a8;
+    }
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(to bottom right, #222, #111);
+    }
+    .hero h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+    .btn {
+      background: #00e0a8;
+      color: #121212;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+    .audios {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+    .audio-card {
+      background: #1f1f1f;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    audio {
+      width: 100%;
+      margin-top: 1rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <header id="inicio">
+    <h1>VozOculta</h1>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#explorar">Explorar</a>
+      <a href="#sube">Sube tu historia</a>
+      <a href="#acerca">Acerca</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="explorar">
+    <h2>Historias reales, voces anónimas</h2>
+    <p>Escucha relatos emocionantes, impactantes o inspiradores contados por personas reales que prefieren permanecer en el anonimato.</p>
+    <button class="btn" onclick="location.href='#explorar'">Explora historias</button>
+  </section>
+
+  <section id="sube" style="padding: 2rem;">
+    <h2>Sube tu historia</h2>
+    <p>Graba tu historia como archivo de audio (.mp3, .wav) y súbelo de forma anónima.</p>
+    <form id="uploadForm" enctype="multipart/form-data" method="POST" action="/upload">
+      <input type="file" name="audio" accept="audio/*" required>
+      <button class="btn" type="submit">Subir</button>
+    </form>
+  </section>
+
+  <section class="audios"></section>
+
+  <footer id="acerca">
+    &copy; 2025 VozOculta. Todos los derechos reservados.
+  </footer>
+
+  <script>
+    fetch('/audios')
+      .then(res => res.json())
+      .then(files => {
+        const container = document.querySelector('.audios');
+        files.reverse().forEach(file => {
+          const div = document.createElement('div');
+          div.className = 'audio-card';
+          div.innerHTML = \`
+            <h3>Historia anónima</h3>
+            <audio controls>
+              <source src="/uploads/\${file}" type="audio/mpeg">
+              Tu navegador no soporta audio.
+            </audio>
+          \`;
+          container.appendChild(div);
+        });
+      });
+  </script>
+</body>
+</html>
